@@ -35,11 +35,21 @@ export class PublicApiCreateRoleAssignmentRequest {
    * Twilio Sid representing identity of this assignment
    */
   "identity": string;
+  /**
+   * The resource type for resource-level role assignments
+   */
+  "resourceType"?: string | null;
+  /**
+   * The resource id for resource-level role assignments
+   */
+  "resourceId"?: string | null;
 
   constructor(payload) {
     this.roleSid = payload["role_sid"];
     this.scope = payload["scope"];
     this.identity = payload["identity"];
+    this.resourceType = payload["resource_type"];
+    this.resourceId = payload["resource_id"];
   }
 }
 
@@ -50,6 +60,7 @@ export interface RoleAssignmentListInstanceCreateOptions {
   /**  */
   publicApiCreateRoleAssignmentRequest: PublicApiCreateRoleAssignmentRequest;
 }
+
 /**
  * Options to pass to each
  */
@@ -60,6 +71,10 @@ export interface RoleAssignmentListInstanceEachOptions {
   identity?: string;
   /**  */
   scope?: string;
+  /** Filter by resource type for resource-level role assignments */
+  resourceType?: string;
+  /** Filter by resource id for resource-level role assignments */
+  resourceId?: string;
   /** Function to process each record. If this and a positional callback are passed, this one will be used */
   callback?: (
     item: RoleAssignmentInstance,
@@ -81,6 +96,10 @@ export interface RoleAssignmentListInstanceOptions {
   identity?: string;
   /**  */
   scope?: string;
+  /** Filter by resource type for resource-level role assignments */
+  resourceType?: string;
+  /** Filter by resource id for resource-level role assignments */
+  resourceId?: string;
   /** Upper limit for the number of records to return. list() guarantees never to return more than limit. Default is no limit */
   limit?: number;
 }
@@ -95,7 +114,10 @@ export interface RoleAssignmentListInstancePageOptions {
   identity?: string;
   /**  */
   scope?: string;
-
+  /** Filter by resource type for resource-level role assignments */
+  resourceType?: string;
+  /** Filter by resource id for resource-level role assignments */
+  resourceId?: string;
   /** Page Number, this value is simply for client state */
   pageNumber?: number;
   /** PageToken provided by the API */
@@ -225,6 +247,8 @@ interface RoleAssignmentResource {
   role_sid: string;
   scope: string;
   identity: string;
+  resource_type: string;
+  resource_id: string;
   code: number;
   message: string;
   moreInfo: string;
@@ -245,6 +269,8 @@ export class RoleAssignmentInstance {
     this.roleSid = payload.role_sid;
     this.scope = payload.scope;
     this.identity = payload.identity;
+    this.resourceType = payload.resource_type;
+    this.resourceId = payload.resource_id;
     this.code = payload.code;
     this.message = payload.message;
     this.moreInfo = payload.moreInfo;
@@ -269,6 +295,14 @@ export class RoleAssignmentInstance {
    * Twilio Sid representing scope of this assignment
    */
   identity: string;
+  /**
+   * The resource type for resource-level role assignments
+   */
+  resourceType: string;
+  /**
+   * The resource id for resource-level role assignments
+   */
+  resourceId: string;
   /**
    * Twilio-specific error code
    */
@@ -334,6 +368,8 @@ export class RoleAssignmentInstance {
       roleSid: this.roleSid,
       scope: this.scope,
       identity: this.identity,
+      resourceType: this.resourceType,
+      resourceId: this.resourceId,
       code: this.code,
       message: this.message,
       moreInfo: this.moreInfo,
@@ -694,6 +730,10 @@ export function RoleAssignmentListInstance(
     if (params["pageSize"] !== undefined) data["PageSize"] = params["pageSize"];
     if (params["identity"] !== undefined) data["Identity"] = params["identity"];
     if (params["scope"] !== undefined) data["Scope"] = params["scope"];
+    if (params["resourceType"] !== undefined)
+      data["ResourceType"] = params["resourceType"];
+    if (params["resourceId"] !== undefined)
+      data["ResourceId"] = params["resourceId"];
 
     if (params.pageNumber !== undefined) data["Page"] = params.pageNumber;
     if (params.pageToken !== undefined) data["PageToken"] = params.pageToken;
@@ -721,6 +761,7 @@ export function RoleAssignmentListInstance(
     return operationPromise;
   };
   instance.each = instance._version.each;
+
   instance.list = instance._version.list;
 
   instance.getPage = function getPage(
@@ -760,6 +801,10 @@ export function RoleAssignmentListInstance(
     if (params["pageSize"] !== undefined) data["PageSize"] = params["pageSize"];
     if (params["identity"] !== undefined) data["Identity"] = params["identity"];
     if (params["scope"] !== undefined) data["Scope"] = params["scope"];
+    if (params["resourceType"] !== undefined)
+      data["ResourceType"] = params["resourceType"];
+    if (params["resourceId"] !== undefined)
+      data["ResourceId"] = params["resourceId"];
 
     if (params.pageNumber !== undefined) data["Page"] = params.pageNumber;
     if (params.pageToken !== undefined) data["PageToken"] = params.pageToken;
@@ -768,6 +813,7 @@ export function RoleAssignmentListInstance(
     headers["Accept"] = "application/json";
 
     let operationVersion = version;
+
     // For page operations, use page() directly as it already returns { statusCode, body, headers }
     // IMPORTANT: Pass full response to Page constructor, not response.body
     let operationPromise = operationVersion
@@ -792,6 +838,7 @@ export function RoleAssignmentListInstance(
   };
   instance.each = instance._version.each;
   instance.eachWithHttpInfo = instance._version.eachWithHttpInfo;
+
   instance.list = instance._version.list;
   instance.listWithHttpInfo = instance._version.listWithHttpInfo;
 

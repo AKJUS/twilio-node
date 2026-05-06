@@ -11,9 +11,11 @@
 
 import Domain from "../base/Domain";
 import V1 from "./voice/V1";
+import V3 from "./voice/V3";
 
 class VoiceBase extends Domain {
   _v1?: V1;
+  _v3?: V3;
 
   /**
    * Initialize voice domain
@@ -27,6 +29,10 @@ class VoiceBase extends Domain {
   get v1(): V1 {
     this._v1 = this._v1 || new V1(this);
     return this._v1;
+  }
+  get v3(): V3 {
+    this._v3 = this._v3 || new V3(this);
+    return this._v3;
   }
 }
 

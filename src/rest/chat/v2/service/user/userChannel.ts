@@ -56,6 +56,7 @@ export interface UserChannelContextUpdateOptions {
   /** The [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) timestamp of the last [Message](https://www.twilio.com/docs/chat/rest/message-resource) read event for the Member within the [Channel](https://www.twilio.com/docs/chat/channels). */
   lastConsumptionTimestamp?: Date;
 }
+
 /**
  * Options to pass to each
  */
@@ -86,7 +87,6 @@ export interface UserChannelListInstanceOptions {
 export interface UserChannelListInstancePageOptions {
   /** How many resources to return in each list page. The default is 50, and the maximum is 50. */
   pageSize?: number;
-
   /** Page Number, this value is simply for client state */
   pageNumber?: number;
   /** PageToken provided by the API */
@@ -1053,6 +1053,7 @@ export function UserChannelListInstance(
     return operationPromise;
   };
   instance.each = instance._version.each;
+
   instance.list = instance._version.list;
 
   instance.getPage = function getPage(
@@ -1095,6 +1096,7 @@ export function UserChannelListInstance(
     headers["Accept"] = "application/json";
 
     let operationVersion = version;
+
     // For page operations, use page() directly as it already returns { statusCode, body, headers }
     // IMPORTANT: Pass full response to Page constructor, not response.body
     let operationPromise = operationVersion
@@ -1119,6 +1121,7 @@ export function UserChannelListInstance(
   };
   instance.each = instance._version.each;
   instance.eachWithHttpInfo = instance._version.eachWithHttpInfo;
+
   instance.list = instance._version.list;
   instance.listWithHttpInfo = instance._version.listWithHttpInfo;
 

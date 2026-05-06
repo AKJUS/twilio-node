@@ -42,6 +42,8 @@ export interface FlowContextUpdateOptions {
   definition?: any;
   /** Description of change made in the revision. */
   commitMessage?: string;
+  /** The SID of the User that created or last updated the Flow. */
+  authorSid?: string;
 }
 
 /**
@@ -56,7 +58,10 @@ export interface FlowListInstanceCreateOptions {
   definition: any;
   /** Description of change made in the revision. */
   commitMessage?: string;
+  /** The SID of the User that created the Flow. */
+  authorSid?: string;
 }
+
 /**
  * Options to pass to each
  */
@@ -87,7 +92,6 @@ export interface FlowListInstanceOptions {
 export interface FlowListInstancePageOptions {
   /** How many resources to return in each list page. The default is 50, and the maximum is 1000. */
   pageSize?: number;
-
   /** Page Number, this value is simply for client state */
   pageNumber?: number;
   /** PageToken provided by the API */
@@ -342,6 +346,8 @@ export class FlowContextImpl implements FlowContext {
       data["Definition"] = serialize.object(params["definition"]);
     if (params["commitMessage"] !== undefined)
       data["CommitMessage"] = params["commitMessage"];
+    if (params["authorSid"] !== undefined)
+      data["AuthorSid"] = params["authorSid"];
 
     const headers: any = {};
     headers["Content-Type"] = "application/x-www-form-urlencoded";
@@ -389,6 +395,8 @@ export class FlowContextImpl implements FlowContext {
       data["Definition"] = serialize.object(params["definition"]);
     if (params["commitMessage"] !== undefined)
       data["CommitMessage"] = params["commitMessage"];
+    if (params["authorSid"] !== undefined)
+      data["AuthorSid"] = params["authorSid"];
 
     const headers: any = {};
     headers["Content-Type"] = "application/x-www-form-urlencoded";
@@ -918,6 +926,8 @@ export function FlowListInstance(version: V2): FlowListInstance {
     data["Definition"] = serialize.object(params["definition"]);
     if (params["commitMessage"] !== undefined)
       data["CommitMessage"] = params["commitMessage"];
+    if (params["authorSid"] !== undefined)
+      data["AuthorSid"] = params["authorSid"];
 
     const headers: any = {};
     headers["Content-Type"] = "application/x-www-form-urlencoded";
@@ -974,6 +984,8 @@ export function FlowListInstance(version: V2): FlowListInstance {
     data["Definition"] = serialize.object(params["definition"]);
     if (params["commitMessage"] !== undefined)
       data["CommitMessage"] = params["commitMessage"];
+    if (params["authorSid"] !== undefined)
+      data["AuthorSid"] = params["authorSid"];
 
     const headers: any = {};
     headers["Content-Type"] = "application/x-www-form-urlencoded";
@@ -1044,6 +1056,7 @@ export function FlowListInstance(version: V2): FlowListInstance {
     return operationPromise;
   };
   instance.each = instance._version.each;
+
   instance.list = instance._version.list;
 
   instance.getPage = function getPage(
@@ -1085,6 +1098,7 @@ export function FlowListInstance(version: V2): FlowListInstance {
     headers["Accept"] = "application/json";
 
     let operationVersion = version;
+
     // For page operations, use page() directly as it already returns { statusCode, body, headers }
     // IMPORTANT: Pass full response to Page constructor, not response.body
     let operationPromise = operationVersion
@@ -1105,6 +1119,7 @@ export function FlowListInstance(version: V2): FlowListInstance {
   };
   instance.each = instance._version.each;
   instance.eachWithHttpInfo = instance._version.eachWithHttpInfo;
+
   instance.list = instance._version.list;
   instance.listWithHttpInfo = instance._version.listWithHttpInfo;
 

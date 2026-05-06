@@ -99,6 +99,7 @@ export interface UsAppToPersonListInstanceCreateOptions {
   /** The URL of the terms and conditions for the campaign. */
   termsAndConditionsUrl?: string;
 }
+
 /**
  * Options to pass to each
  */
@@ -135,7 +136,6 @@ export interface UsAppToPersonListInstancePageOptions {
   pageSize?: number;
   /** The version of the Messaging API to use for this request */
   xTwilioApiVersion?: string;
-
   /** Page Number, this value is simply for client state */
   pageNumber?: number;
   /** PageToken provided by the API */
@@ -1630,6 +1630,7 @@ export function UsAppToPersonListInstance(
     return operationPromise;
   };
   instance.each = instance._version.each;
+
   instance.list = instance._version.list;
 
   instance.getPage = function getPage(
@@ -1677,6 +1678,7 @@ export function UsAppToPersonListInstance(
       headers["X-Twilio-Api-Version"] = params["xTwilioApiVersion"];
 
     let operationVersion = version;
+
     // For page operations, use page() directly as it already returns { statusCode, body, headers }
     // IMPORTANT: Pass full response to Page constructor, not response.body
     let operationPromise = operationVersion
@@ -1701,6 +1703,7 @@ export function UsAppToPersonListInstance(
   };
   instance.each = instance._version.each;
   instance.eachWithHttpInfo = instance._version.eachWithHttpInfo;
+
   instance.list = instance._version.list;
   instance.listWithHttpInfo = instance._version.listWithHttpInfo;
 

@@ -78,6 +78,7 @@ export interface CompositionHookListInstanceCreateOptions {
   /** Whether to clip the intervals where there is no active media in the Compositions triggered by the composition hook. The default is `true`. Compositions with `trim` enabled are shorter when the Room is created and no Participant joins for a while as well as if all the Participants leave the room and join later, because those gaps will be removed. See [Specifying Video Layouts](https://www.twilio.com/docs/video/api/compositions-resource#specifying-video-layouts) for more info. */
   trim?: boolean;
 }
+
 /**
  * Options to pass to each
  */
@@ -135,7 +136,6 @@ export interface CompositionHookListInstancePageOptions {
   friendlyName?: string;
   /** How many resources to return in each list page. The default is 50, and the maximum is 1000. */
   pageSize?: number;
-
   /** Page Number, this value is simply for client state */
   pageNumber?: number;
   /** PageToken provided by the API */
@@ -1178,6 +1178,7 @@ export function CompositionHookListInstance(
     return operationPromise;
   };
   instance.each = instance._version.each;
+
   instance.list = instance._version.list;
 
   instance.getPage = function getPage(
@@ -1235,6 +1236,7 @@ export function CompositionHookListInstance(
     headers["Accept"] = "application/json";
 
     let operationVersion = version;
+
     // For page operations, use page() directly as it already returns { statusCode, body, headers }
     // IMPORTANT: Pass full response to Page constructor, not response.body
     let operationPromise = operationVersion
@@ -1259,6 +1261,7 @@ export function CompositionHookListInstance(
   };
   instance.each = instance._version.each;
   instance.eachWithHttpInfo = instance._version.eachWithHttpInfo;
+
   instance.list = instance._version.list;
   instance.listWithHttpInfo = instance._version.listWithHttpInfo;
 

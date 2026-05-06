@@ -303,8 +303,6 @@ export function HostedNumberOrderListInstance(
   return instance;
 }
 
-interface HostedNumberOrderPayload extends HostedNumberOrderResource {}
-
 interface HostedNumberOrderResource {
   sid: string;
   accountSid: string;

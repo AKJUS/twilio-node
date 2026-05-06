@@ -51,6 +51,7 @@ export interface ServiceListInstanceCreateOptions {
   /** Whether the Service\\\'s properties and subresources can be edited via the UI. The default value is `false`. */
   uiEditable?: boolean;
 }
+
 /**
  * Options to pass to each
  */
@@ -81,7 +82,6 @@ export interface ServiceListInstanceOptions {
 export interface ServiceListInstancePageOptions {
   /** How many resources to return in each list page. The default is 50, and the maximum is 1000. */
   pageSize?: number;
-
   /** Page Number, this value is simply for client state */
   pageNumber?: number;
   /** PageToken provided by the API */
@@ -1063,6 +1063,7 @@ export function ServiceListInstance(version: V1): ServiceListInstance {
     return operationPromise;
   };
   instance.each = instance._version.each;
+
   instance.list = instance._version.list;
 
   instance.getPage = function getPage(
@@ -1105,6 +1106,7 @@ export function ServiceListInstance(version: V1): ServiceListInstance {
     headers["Accept"] = "application/json";
 
     let operationVersion = version;
+
     // For page operations, use page() directly as it already returns { statusCode, body, headers }
     // IMPORTANT: Pass full response to Page constructor, not response.body
     let operationPromise = operationVersion
@@ -1125,6 +1127,7 @@ export function ServiceListInstance(version: V1): ServiceListInstance {
   };
   instance.each = instance._version.each;
   instance.eachWithHttpInfo = instance._version.eachWithHttpInfo;
+
   instance.list = instance._version.list;
   instance.listWithHttpInfo = instance._version.listWithHttpInfo;
 

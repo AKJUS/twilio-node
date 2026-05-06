@@ -341,27 +341,27 @@ export class CallSummaryInstance {
    */
   connectDuration: number;
   /**
-   * The calling party.
+   * `object` The calling party. See [Details: Call Summary](https://www.twilio.com/docs/voice/voice-insights/api/call/details-call-summary#tofrom-object) for the object properties.
    */
   from: any;
   /**
-   * The called party.
+   * `object` The called party. See [Details: Call Summary](https://www.twilio.com/docs/voice/voice-insights/api/call/details-call-summary#tofrom-object) for the object properties.
    */
   to: any;
   /**
-   * Contains metrics and properties for the Twilio media gateway of a PSTN call.
+   * `object` Contains metrics and properties for the Twilio media gateway of a PSTN call. See [Details: Call Summary](https://www.twilio.com/docs/voice/voice-insights/api/call/details-call-summary#edges-and-their-properties) for the object properties.
    */
   carrierEdge: any;
   /**
-   * Contains metrics and properties for the Twilio media gateway of a Client call.
+   * `object` Contains metrics and properties for the Twilio media gateway of a Client call. See [Details: Call Summary](https://www.twilio.com/docs/voice/voice-insights/api/call/details-call-summary#edges-and-their-properties) for the object properties.
    */
   clientEdge: any;
   /**
-   * Contains metrics and properties for the SDK sensor library for Client calls.
+   * `object` Contains metrics and properties for the SDK sensor library for Client calls. See [Details: Call Summary](https://www.twilio.com/docs/voice/voice-insights/api/call/details-call-summary#edges-and-their-properties) for the object properties.
    */
   sdkEdge: any;
   /**
-   * Contains metrics and properties for the Twilio media gateway of a SIP Interface or Trunking call.
+   * `object` Contains metrics and properties for the Twilio media gateway of a SIP Interface or Trunking call. See [Details: Call Summary](https://www.twilio.com/docs/voice/voice-insights/api/call/details-call-summary#edges-and-their-properties) for the object properties.
    */
   sipEdge: any;
   /**
@@ -373,19 +373,19 @@ export class CallSummaryInstance {
    */
   url: string;
   /**
-   * Attributes capturing call-flow-specific details.
+   * `object` Attributes capturing call-flow-specific details. See [Details: Call Summary](https://www.twilio.com/docs/voice/voice-insights/api/call/details-call-summary#attributes-object) for the object properties.
    */
   attributes: any;
   /**
-   * Contains edge-agnostic call-level details.
+   * `object` Contains edge-agnostic call-level details. See [Details: Call Summary](https://www.twilio.com/docs/voice/voice-insights/api/call/details-call-summary#properties-object) for the object properties.
    */
   properties: any;
   /**
-   * Contains trusted communications details including Branded Call and verified caller ID.
+   * `object` Contains trusted communications details including Branded Call and verified caller ID. See [Details: Call Summary](https://www.twilio.com/docs/voice/voice-insights/api/call/details-call-summary#trust-object) for the object properties.
    */
   trust: any;
   /**
-   * Programmatically labeled annotations for the Call. Developers can update the Call Summary records with Annotation during or after a Call. Annotations can be updated as long as the Call Summary record is addressable via the API.
+   * `object` Programmatically labeled annotations for the Call. Developers can update the Call Summary records with Annotation during or after a Call. Annotations can be updated as long as the Call Summary record is addressable via the API. See [Details: Call Summary](https://www.twilio.com/docs/voice/voice-insights/api/call/details-call-summary#annotation-object) for the object properties.
    */
   annotation: any;
 

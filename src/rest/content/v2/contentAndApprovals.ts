@@ -109,7 +109,6 @@ export interface ContentAndApprovalsListInstancePageOptions {
   contentType?: Array<string>;
   /** Filter by array of ChannelEligibility(s), where ChannelEligibility=<channel>:<status> */
   channelEligibility?: Array<string>;
-
   /** Page Number, this value is simply for client state */
   pageNumber?: number;
   /** PageToken provided by the API */
@@ -385,6 +384,7 @@ export function ContentAndApprovalsListInstance(
     return operationPromise;
   };
   instance.each = instance._version.each;
+
   instance.list = instance._version.list;
 
   instance.getPage = function getPage(
@@ -464,6 +464,7 @@ export function ContentAndApprovalsListInstance(
     headers["Accept"] = "application/json";
 
     let operationVersion = version;
+
     // For page operations, use page() directly as it already returns { statusCode, body, headers }
     // IMPORTANT: Pass full response to Page constructor, not response.body
     let operationPromise = operationVersion
@@ -488,6 +489,7 @@ export function ContentAndApprovalsListInstance(
   };
   instance.each = instance._version.each;
   instance.eachWithHttpInfo = instance._version.eachWithHttpInfo;
+
   instance.list = instance._version.list;
   instance.listWithHttpInfo = instance._version.listWithHttpInfo;
 

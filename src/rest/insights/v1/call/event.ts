@@ -67,7 +67,6 @@ export interface EventListInstancePageOptions {
   edge?: EventTwilioEdge;
   /** How many resources to return in each list page. The default is 50, and the maximum is 1000. */
   pageSize?: number;
-
   /** Page Number, this value is simply for client state */
   pageNumber?: number;
   /** PageToken provided by the API */
@@ -286,6 +285,7 @@ export function EventListInstance(
     return operationPromise;
   };
   instance.each = instance._version.each;
+
   instance.list = instance._version.list;
 
   instance.getPage = function getPage(
@@ -328,6 +328,7 @@ export function EventListInstance(
     headers["Accept"] = "application/json";
 
     let operationVersion = version;
+
     // For page operations, use page() directly as it already returns { statusCode, body, headers }
     // IMPORTANT: Pass full response to Page constructor, not response.body
     let operationPromise = operationVersion
@@ -348,6 +349,7 @@ export function EventListInstance(
   };
   instance.each = instance._version.each;
   instance.eachWithHttpInfo = instance._version.eachWithHttpInfo;
+
   instance.list = instance._version.list;
   instance.listWithHttpInfo = instance._version.listWithHttpInfo;
 
@@ -442,19 +444,19 @@ export class EventInstance {
    */
   name: string;
   /**
-   * Represents the connection between Twilio and our immediate carrier partners. The events here describe the call lifecycle as reported by Twilio\'s carrier media gateways.
+   * `object` Represents the connection between Twilio and our immediate carrier partners. The events here describe the call lifecycle as reported by Twilio\'s carrier media gateways. See [Details: Call Summary](https://www.twilio.com/docs/voice/voice-insights/api/call/details-call-summary#edges-and-their-properties) for the object properties.
    */
   carrierEdge: any;
   /**
-   * Represents the Twilio media gateway for SIP interface and SIP trunking calls. The events here describe the call lifecycle as reported by Twilio\'s public media gateways.
+   * `object` Represents the Twilio media gateway for SIP interface and SIP trunking calls. The events here describe the call lifecycle as reported by Twilio\'s public media gateways. See [Details: Call Summary](https://www.twilio.com/docs/voice/voice-insights/api/call/details-call-summary#edges-and-their-properties) for the object properties.
    */
   sipEdge: any;
   /**
-   * Represents the Voice SDK running locally in the browser or in the Android/iOS application. The events here are emitted by the Voice SDK in response to certain call progress events, network changes, or call quality conditions.
+   * `object` Represents the Voice SDK running locally in the browser or in the Android/iOS application. The events here are emitted by the Voice SDK in response to certain call progress events, network changes, or call quality conditions. See [Details: Call Summary](https://www.twilio.com/docs/voice/voice-insights/api/call/details-call-summary#edges-and-their-properties) for the object properties.
    */
   sdkEdge: any;
   /**
-   * Represents the Twilio media gateway for Client calls. The events here describe the call lifecycle as reported by Twilio\'s Voice SDK media gateways.
+   * `object` Represents the Twilio media gateway for Client calls. The events here describe the call lifecycle as reported by Twilio\'s Voice SDK media gateways. See [Details: Call Summary](https://www.twilio.com/docs/voice/voice-insights/api/call/details-call-summary#edges-and-their-properties) for the object properties.
    */
   clientEdge: any;
 

@@ -132,6 +132,10 @@ export class MessagingV2ChannelsSenderProfile {
    */
   "accentColor"?: string | null;
   /**
+   * The messaging use case type for the RCS sender. Allowed values are `PROMOTIONAL`, `TRANSACTIONAL`, `OTP`, `MULTI_USE`. Defaults to `MULTI_USE` if not provided. Cannot be modified after launch.
+   */
+  "useCase"?: string | null;
+  /**
    * The vertical of the sender. Allowed values are: - `Alcohol` - `Automotive` - `Beauty, Spa and Salon` - `Clothing and Apparel` - `Education` - `Entertainment` - `Event Planning and Service` - `Finance and Banking` - `Food and Grocery` - `Hotel and Lodging` - `Matrimony Service` - `Medical and Health` - `Non-profit` - `Online Gambling` - `OTC Drugs` - `Other` - `Physical Gambling` - `Professional Services` - `Public Service` - `Restaurant` - `Shopping and Retail` - `Travel and Transportation`
    */
   "vertical"?: string | null;
@@ -158,6 +162,7 @@ export class MessagingV2ChannelsSenderProfile {
     this.privacyUrl = payload["privacy_url"];
     this.termsOfServiceUrl = payload["terms_of_service_url"];
     this.accentColor = payload["accent_color"];
+    this.useCase = payload["use_case"];
     this.vertical = payload["vertical"];
     this.websites = payload["websites"];
     this.emails = payload["emails"];
@@ -206,6 +211,10 @@ export class MessagingV2ChannelsSenderProfileGenericResponse {
    */
   "accentColor"?: string | null;
   /**
+   * The messaging use case type for the RCS sender. Allowed values are `PROMOTIONAL`, `TRANSACTIONAL`, `OTP`, `MULTI_USE`. Defaults to `MULTI_USE` if not provided. Cannot be modified after launch.
+   */
+  "useCase"?: string | null;
+  /**
    * The vertical of the sender. Allowed values are: - `Alcohol` - `Automotive` - `Beauty, Spa and Salon` - `Clothing and Apparel` - `Education` - `Entertainment` - `Event Planning and Service` - `Finance and Banking` - `Food and Grocery` - `Hotel and Lodging` - `Matrimony Service` - `Medical and Health` - `Non-profit` - `Online Gambling` - `OTC Drugs` - `Other` - `Physical Gambling` - `Professional Services` - `Public Service` - `Restaurant` - `Shopping and Retail` - `Travel and Transportation`
    */
   "vertical"?: string | null;
@@ -232,6 +241,7 @@ export class MessagingV2ChannelsSenderProfileGenericResponse {
     this.privacyUrl = payload["privacy_url"];
     this.termsOfServiceUrl = payload["terms_of_service_url"];
     this.accentColor = payload["accent_color"];
+    this.useCase = payload["use_case"];
     this.vertical = payload["vertical"];
     this.websites = payload["websites"];
     this.emails = payload["emails"];
@@ -443,6 +453,7 @@ export interface ChannelsSenderListInstanceCreateOptions {
   /**  */
   messagingV2ChannelsSenderRequestsCreate: MessagingV2ChannelsSenderRequestsCreate;
 }
+
 /**
  * Options to pass to each
  */
@@ -482,7 +493,6 @@ export interface ChannelsSenderListInstancePageOptions {
   channel: string;
   /** The number of items to return per page. For WhatsApp, the default is `20`. */
   pageSize?: number;
-
   /** Page Number, this value is simply for client state */
   pageNumber?: number;
   /** PageToken provided by the API */
@@ -1427,6 +1437,7 @@ export function ChannelsSenderListInstance(
     return operationPromise;
   };
   instance.each = instance._version.each;
+
   instance.list = instance._version.list;
 
   instance.getPage = function getPage(
@@ -1472,6 +1483,7 @@ export function ChannelsSenderListInstance(
     headers["Accept"] = "application/json";
 
     let operationVersion = version;
+
     // For page operations, use page() directly as it already returns { statusCode, body, headers }
     // IMPORTANT: Pass full response to Page constructor, not response.body
     let operationPromise = operationVersion
@@ -1496,6 +1508,7 @@ export function ChannelsSenderListInstance(
   };
   instance.each = instance._version.each;
   instance.eachWithHttpInfo = instance._version.eachWithHttpInfo;
+
   instance.list = instance._version.list;
   instance.listWithHttpInfo = instance._version.listWithHttpInfo;
 

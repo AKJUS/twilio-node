@@ -53,6 +53,7 @@ export interface SinkListInstanceCreateOptions {
   /**  */
   sinkType: SinkSinkType;
 }
+
 /**
  * Options to pass to each
  */
@@ -95,7 +96,6 @@ export interface SinkListInstancePageOptions {
   status?: string;
   /** How many resources to return in each list page. The default is 50, and the maximum is 1000. */
   pageSize?: number;
-
   /** Page Number, this value is simply for client state */
   pageNumber?: number;
   /** PageToken provided by the API */
@@ -977,6 +977,7 @@ export function SinkListInstance(version: V1): SinkListInstance {
     return operationPromise;
   };
   instance.each = instance._version.each;
+
   instance.list = instance._version.list;
 
   instance.getPage = function getPage(
@@ -1021,6 +1022,7 @@ export function SinkListInstance(version: V1): SinkListInstance {
     headers["Accept"] = "application/json";
 
     let operationVersion = version;
+
     // For page operations, use page() directly as it already returns { statusCode, body, headers }
     // IMPORTANT: Pass full response to Page constructor, not response.body
     let operationPromise = operationVersion
@@ -1041,6 +1043,7 @@ export function SinkListInstance(version: V1): SinkListInstance {
   };
   instance.each = instance._version.each;
   instance.eachWithHttpInfo = instance._version.eachWithHttpInfo;
+
   instance.list = instance._version.list;
   instance.listWithHttpInfo = instance._version.listWithHttpInfo;
 

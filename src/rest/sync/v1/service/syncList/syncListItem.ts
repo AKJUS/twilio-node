@@ -63,6 +63,7 @@ export interface SyncListItemListInstanceCreateOptions {
   /** How long, [in seconds](https://www.twilio.com/docs/sync/limits#sync-payload-limits), before the List Item\\\'s parent Sync List expires (time-to-live) and is deleted. */
   collectionTtl?: number;
 }
+
 /**
  * Options to pass to each
  */
@@ -111,7 +112,6 @@ export interface SyncListItemListInstancePageOptions {
   bounds?: SyncListItemQueryFromBoundType;
   /** How many resources to return in each list page. The default is 50, and the maximum is 100. */
   pageSize?: number;
-
   /** Page Number, this value is simply for client state */
   pageNumber?: number;
   /** PageToken provided by the API */
@@ -1223,6 +1223,7 @@ export function SyncListItemListInstance(
     return operationPromise;
   };
   instance.each = instance._version.each;
+
   instance.list = instance._version.list;
 
   instance.getPage = function getPage(
@@ -1271,6 +1272,7 @@ export function SyncListItemListInstance(
     headers["Accept"] = "application/json";
 
     let operationVersion = version;
+
     // For page operations, use page() directly as it already returns { statusCode, body, headers }
     // IMPORTANT: Pass full response to Page constructor, not response.body
     let operationPromise = operationVersion
@@ -1295,6 +1297,7 @@ export function SyncListItemListInstance(
   };
   instance.each = instance._version.each;
   instance.eachWithHttpInfo = instance._version.eachWithHttpInfo;
+
   instance.list = instance._version.list;
   instance.listWithHttpInfo = instance._version.listWithHttpInfo;
 

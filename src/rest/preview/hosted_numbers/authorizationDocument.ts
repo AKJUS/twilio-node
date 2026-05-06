@@ -70,6 +70,7 @@ export interface AuthorizationDocumentListInstanceCreateOptions {
   /** Email recipients who will be informed when an Authorization Document has been sent and signed. */
   ccEmails?: Array<string>;
 }
+
 /**
  * Options to pass to each
  */
@@ -115,7 +116,6 @@ export interface AuthorizationDocumentListInstancePageOptions {
   status?: AuthorizationDocumentStatus;
   /** How many resources to return in each list page. The default is 50, and the maximum is 1000. */
   pageSize?: number;
-
   /** Page Number, this value is simply for client state */
   pageNumber?: number;
   /** PageToken provided by the API */
@@ -1134,6 +1134,7 @@ export function AuthorizationDocumentListInstance(
     return operationPromise;
   };
   instance.each = instance._version.each;
+
   instance.list = instance._version.list;
 
   instance.getPage = function getPage(
@@ -1188,6 +1189,7 @@ export function AuthorizationDocumentListInstance(
     headers["Accept"] = "application/json";
 
     let operationVersion = version;
+
     // For page operations, use page() directly as it already returns { statusCode, body, headers }
     // IMPORTANT: Pass full response to Page constructor, not response.body
     let operationPromise = operationVersion
@@ -1212,6 +1214,7 @@ export function AuthorizationDocumentListInstance(
   };
   instance.each = instance._version.each;
   instance.eachWithHttpInfo = instance._version.eachWithHttpInfo;
+
   instance.list = instance._version.list;
   instance.listWithHttpInfo = instance._version.listWithHttpInfo;
 

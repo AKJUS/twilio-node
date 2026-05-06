@@ -73,6 +73,7 @@ export interface ByocTrunkListInstanceCreateOptions {
   /** The SID of the SIP Domain that should be used in the `From` header of originating calls sent to your SIP infrastructure. If your SIP infrastructure allows users to \\\"call back\\\" an incoming call, configure this with a [SIP Domain](https://www.twilio.com/docs/voice/api/sending-sip) to ensure proper routing. If not configured, the from domain will default to \\\"sip.twilio.com\\\". */
   fromDomainSid?: string;
 }
+
 /**
  * Options to pass to each
  */
@@ -103,7 +104,6 @@ export interface ByocTrunkListInstanceOptions {
 export interface ByocTrunkListInstancePageOptions {
   /** How many resources to return in each list page. The default is 50, and the maximum is 1000. */
   pageSize?: number;
-
   /** Page Number, this value is simply for client state */
   pageNumber?: number;
   /** PageToken provided by the API */
@@ -1147,6 +1147,7 @@ export function ByocTrunkListInstance(version: V1): ByocTrunkListInstance {
     return operationPromise;
   };
   instance.each = instance._version.each;
+
   instance.list = instance._version.list;
 
   instance.getPage = function getPage(
@@ -1189,6 +1190,7 @@ export function ByocTrunkListInstance(version: V1): ByocTrunkListInstance {
     headers["Accept"] = "application/json";
 
     let operationVersion = version;
+
     // For page operations, use page() directly as it already returns { statusCode, body, headers }
     // IMPORTANT: Pass full response to Page constructor, not response.body
     let operationPromise = operationVersion
@@ -1213,6 +1215,7 @@ export function ByocTrunkListInstance(version: V1): ByocTrunkListInstance {
   };
   instance.each = instance._version.each;
   instance.eachWithHttpInfo = instance._version.eachWithHttpInfo;
+
   instance.list = instance._version.list;
   instance.listWithHttpInfo = instance._version.listWithHttpInfo;
 

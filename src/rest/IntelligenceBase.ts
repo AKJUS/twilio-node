@@ -11,9 +11,11 @@
 
 import Domain from "../base/Domain";
 import V2 from "./intelligence/V2";
+import V3 from "./intelligence/V3";
 
 class IntelligenceBase extends Domain {
   _v2?: V2;
+  _v3?: V3;
 
   /**
    * Initialize intelligence domain
@@ -27,6 +29,10 @@ class IntelligenceBase extends Domain {
   get v2(): V2 {
     this._v2 = this._v2 || new V2(this);
     return this._v2;
+  }
+  get v3(): V3 {
+    this._v3 = this._v3 || new V3(this);
+    return this._v3;
   }
 }
 

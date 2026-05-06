@@ -79,7 +79,7 @@ export interface TranscriptionListInstanceCreateOptions {
   /** The ID of the Conversation for associating this Transcription with an existing Conversation in Intelligence Service */
   conversationId?: string;
   /** The ID of the RealTimeTranscription Configuration for configuring all the non-default behaviors in one go. */
-  configurationId?: string;
+  transcriptionConfigurationId?: string;
   /** Whether the callback includes raw provider data. */
   enableProviderData?: boolean;
 }
@@ -545,8 +545,9 @@ export function TranscriptionListInstance(
       data["ConversationConfiguration"] = params["conversationConfiguration"];
     if (params["conversationId"] !== undefined)
       data["ConversationId"] = params["conversationId"];
-    if (params["configurationId"] !== undefined)
-      data["ConfigurationId"] = params["configurationId"];
+    if (params["transcriptionConfigurationId"] !== undefined)
+      data["TranscriptionConfigurationId"] =
+        params["transcriptionConfigurationId"];
     if (params["enableProviderData"] !== undefined)
       data["EnableProviderData"] = serialize.bool(params["enableProviderData"]);
 
@@ -631,8 +632,9 @@ export function TranscriptionListInstance(
       data["ConversationConfiguration"] = params["conversationConfiguration"];
     if (params["conversationId"] !== undefined)
       data["ConversationId"] = params["conversationId"];
-    if (params["configurationId"] !== undefined)
-      data["ConfigurationId"] = params["configurationId"];
+    if (params["transcriptionConfigurationId"] !== undefined)
+      data["TranscriptionConfigurationId"] =
+        params["transcriptionConfigurationId"];
     if (params["enableProviderData"] !== undefined)
       data["EnableProviderData"] = serialize.bool(params["enableProviderData"]);
 

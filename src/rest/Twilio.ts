@@ -28,6 +28,7 @@ import IpMessaging from "./IpMessaging";
 import Knowledge from "./Knowledge";
 import Lookups from "./Lookups";
 import Marketplace from "./Marketplace";
+import Memory from "./Memory";
 import Messaging from "./Messaging";
 import Monitor from "./Monitor";
 import Notify from "./Notify";
@@ -116,6 +117,8 @@ class Twilio extends Client {
   _lookups?: Lookups;
   /** (Twilio.Marketplace) - marketplace domain */
   _marketplace?: Marketplace;
+  /** (Twilio.Memory) - memory domain */
+  _memory?: Memory;
   /** (Twilio.Messaging) - messaging domain */
   _messaging?: Messaging;
   /** (Twilio.Monitor) - monitor domain */
@@ -192,6 +195,7 @@ class Twilio extends Client {
       this.knowledge;
       this.lookups;
       this.marketplace;
+      this.memory;
       this.messaging;
       this.monitor;
       this.notify;
@@ -317,6 +321,10 @@ class Twilio extends Client {
       this._marketplace ??
       (this._marketplace = new (require("./Marketplace"))(this))
     );
+  }
+  /** Getter for (Twilio.Memory) domain */
+  get memory(): Memory {
+    return this._memory ?? (this._memory = new (require("./Memory"))(this));
   }
   /** Getter for (Twilio.Messaging) domain */
   get messaging(): Messaging {

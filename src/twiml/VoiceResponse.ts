@@ -1738,6 +1738,8 @@ namespace VoiceResponse {
     method?: string;
     /** record - Record the call */
     record?: DialRecord;
+    /** recordingConfigurationId - Configuration for the recording */
+    recordingConfigurationId?: string;
     /** recordingStatusCallback - Recording status callback URL */
     recordingStatusCallback?: string;
     /** recordingStatusCallbackEvent - Recording status callback events */
@@ -1868,6 +1870,8 @@ namespace VoiceResponse {
     method?: string;
     /** playBeep - Play beep */
     playBeep?: boolean;
+    /** recordingConfigurationId - Configuration for the recording */
+    recordingConfigurationId?: string;
     /** recordingStatusCallback - Status callback URL */
     recordingStatusCallback?: string;
     /** recordingStatusCallbackEvent - Recording status callback events */
@@ -2188,6 +2192,8 @@ namespace VoiceResponse {
   export interface RecordingAttributes {
     /** channels - The recording channels for the final recording */
     channels?: RecordingChannels;
+    /** recordingConfigurationId - Configuration for the recording */
+    recordingConfigurationId?: string;
     /** recordingStatusCallback - Recording Status Callback URL */
     recordingStatusCallback?: string;
     /** recordingStatusCallbackEvent - Recording Status Callback Events */
@@ -2856,6 +2862,8 @@ namespace VoiceResponse {
     participantLabel?: string;
     /** record - Record the conference */
     record?: ConferenceRecord;
+    /** recordingConfigurationId - Configuration for the recording */
+    recordingConfigurationId?: string;
     /** recordingStatusCallback - Recording status callback URL */
     recordingStatusCallback?: string;
     /** recordingStatusCallbackEvent - Recording status callback events */

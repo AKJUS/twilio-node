@@ -39,6 +39,7 @@ export interface ExportCustomJobListInstanceCreateOptions {
   /** The optional email to send the completion notification to. You can set both webhook, and email, or one or the other. If you set neither, the job will run but you will have to query to determine your job\\\'s status. */
   email?: string;
 }
+
 /**
  * Options to pass to each
  */
@@ -72,7 +73,6 @@ export interface ExportCustomJobListInstanceOptions {
 export interface ExportCustomJobListInstancePageOptions {
   /** How many resources to return in each list page. The default is 50, and the maximum is 1000. */
   pageSize?: number;
-
   /** Page Number, this value is simply for client state */
   pageNumber?: number;
   /** PageToken provided by the API */
@@ -481,6 +481,7 @@ export function ExportCustomJobListInstance(
     return operationPromise;
   };
   instance.each = instance._version.each;
+
   instance.list = instance._version.list;
 
   instance.getPage = function getPage(
@@ -526,6 +527,7 @@ export function ExportCustomJobListInstance(
     headers["Accept"] = "application/json";
 
     let operationVersion = version;
+
     // For page operations, use page() directly as it already returns { statusCode, body, headers }
     // IMPORTANT: Pass full response to Page constructor, not response.body
     let operationPromise = operationVersion
@@ -550,6 +552,7 @@ export function ExportCustomJobListInstance(
   };
   instance.each = instance._version.each;
   instance.eachWithHttpInfo = instance._version.eachWithHttpInfo;
+
   instance.list = instance._version.list;
   instance.listWithHttpInfo = instance._version.listWithHttpInfo;
 

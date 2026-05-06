@@ -143,6 +143,8 @@ export interface ParticipantListInstanceCreateOptions {
   callReason?: string;
   /** The audio track to record for the call. Can be: `inbound`, `outbound` or `both`. The default is `both`. `inbound` records the audio that is received by Twilio. `outbound` records the audio that is sent from Twilio. `both` records the audio that is received and sent by Twilio. */
   recordingTrack?: string;
+  /** The identifier of the configuration to be used when creating and processing the recording */
+  recordingConfigurationId?: string;
   /** The maximum duration of the call in seconds. Constraints depend on account and configuration. */
   timeLimit?: number;
   /** Whether to detect if a human, answering machine, or fax has picked up the call. Can be: `Enable` or `DetectMessageEnd`. Use `Enable` if you would like us to return `AnsweredBy` as soon as the called party is identified. Use `DetectMessageEnd`, if you would like to leave a message on an answering machine. For more information, see [Answering Machine Detection](https://www.twilio.com/docs/voice/answering-machine-detection). */
@@ -168,6 +170,7 @@ export interface ParticipantListInstanceCreateOptions {
   /** The name that populates the display name in the From header. Must be between 2 and 255 characters. Only applicable for calls to sip address. */
   callerDisplayName?: string;
 }
+
 /**
  * Options to pass to each
  */
@@ -216,7 +219,6 @@ export interface ParticipantListInstancePageOptions {
   coaching?: boolean;
   /** How many resources to return in each list page. The default is 50, and the maximum is 1000. */
   pageSize?: number;
-
   /** Page Number, this value is simply for client state */
   pageNumber?: number;
   /** PageToken provided by the API */
@@ -1247,6 +1249,8 @@ export function ParticipantListInstance(
       data["CallReason"] = params["callReason"];
     if (params["recordingTrack"] !== undefined)
       data["RecordingTrack"] = params["recordingTrack"];
+    if (params["recordingConfigurationId"] !== undefined)
+      data["RecordingConfigurationId"] = params["recordingConfigurationId"];
     if (params["timeLimit"] !== undefined)
       data["TimeLimit"] = params["timeLimit"];
     if (params["machineDetection"] !== undefined)
@@ -1412,6 +1416,8 @@ export function ParticipantListInstance(
       data["CallReason"] = params["callReason"];
     if (params["recordingTrack"] !== undefined)
       data["RecordingTrack"] = params["recordingTrack"];
+    if (params["recordingConfigurationId"] !== undefined)
+      data["RecordingConfigurationId"] = params["recordingConfigurationId"];
     if (params["timeLimit"] !== undefined)
       data["TimeLimit"] = params["timeLimit"];
     if (params["machineDetection"] !== undefined)
@@ -1520,6 +1526,7 @@ export function ParticipantListInstance(
     return operationPromise;
   };
   instance.each = instance._version.each;
+
   instance.list = instance._version.list;
 
   instance.getPage = function getPage(
@@ -1568,6 +1575,7 @@ export function ParticipantListInstance(
     headers["Accept"] = "application/json";
 
     let operationVersion = version;
+
     // For page operations, use page() directly as it already returns { statusCode, body, headers }
     // IMPORTANT: Pass full response to Page constructor, not response.body
     let operationPromise = operationVersion
@@ -1592,6 +1600,7 @@ export function ParticipantListInstance(
   };
   instance.each = instance._version.each;
   instance.eachWithHttpInfo = instance._version.eachWithHttpInfo;
+
   instance.list = instance._version.list;
   instance.listWithHttpInfo = instance._version.listWithHttpInfo;
 
