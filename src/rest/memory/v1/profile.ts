@@ -64,6 +64,14 @@ export class ProfilesMeta {
 }
 
 /**
+ * Options to pass to fetch a ProfileInstance
+ */
+export interface ProfileContextFetchOptions {
+  /** Comma separated list of trait group names to include. */
+  traitGroups?: string;
+}
+
+/**
  * Options to pass to patch a ProfileInstance
  */
 export interface ProfileContextPatchOptions {
@@ -143,6 +151,52 @@ export interface ProfileContext {
    * @returns Resolves to processed ProfileInstance with HTTP metadata
    */
   removeWithHttpInfo(
+    callback?: (error: Error | null, item?: ApiResponse<ProfileInstance>) => any
+  ): Promise<ApiResponse<ProfileInstance>>;
+
+  /**
+   * Fetch a ProfileInstance
+   *
+   * @param callback - Callback to handle processed record
+   *
+   * @returns Resolves to processed ProfileInstance
+   */
+  fetch(
+    callback?: (error: Error | null, item?: ProfileInstance) => any
+  ): Promise<ProfileInstance>;
+  /**
+   * Fetch a ProfileInstance
+   *
+   * @param params - Parameter for request
+   * @param callback - Callback to handle processed record
+   *
+   * @returns Resolves to processed ProfileInstance
+   */
+  fetch(
+    params: ProfileContextFetchOptions,
+    callback?: (error: Error | null, item?: ProfileInstance) => any
+  ): Promise<ProfileInstance>;
+
+  /**
+   * Fetch a ProfileInstance and return HTTP info
+   *
+   * @param callback - Callback to handle processed record
+   *
+   * @returns Resolves to processed ProfileInstance with HTTP metadata
+   */
+  fetchWithHttpInfo(
+    callback?: (error: Error | null, item?: ApiResponse<ProfileInstance>) => any
+  ): Promise<ApiResponse<ProfileInstance>>;
+  /**
+   * Fetch a ProfileInstance and return HTTP info
+   *
+   * @param params - Parameter for request
+   * @param callback - Callback to handle processed record
+   *
+   * @returns Resolves to processed ProfileInstance with HTTP metadata
+   */
+  fetchWithHttpInfo(
+    params: ProfileContextFetchOptions,
     callback?: (error: Error | null, item?: ApiResponse<ProfileInstance>) => any
   ): Promise<ApiResponse<ProfileInstance>>;
 
@@ -249,6 +303,103 @@ export class ProfileContextImpl implements ProfileContext {
       .fetchWithResponseInfo<ProfileResource>({
         uri: instance._uri,
         method: "delete",
+        headers,
+      })
+      .then(
+        (response): ApiResponse<ProfileInstance> => ({
+          ...response,
+          body: new ProfileInstance(
+            operationVersion,
+            response.body,
+            instance._solution.storeId,
+            instance._solution.profileId
+          ),
+        })
+      );
+
+    operationPromise = instance._version.setPromiseCallback(
+      operationPromise,
+      callback
+    );
+    return operationPromise;
+  }
+
+  fetch(
+    params?:
+      | ProfileContextFetchOptions
+      | ((error: Error | null, item?: ProfileInstance) => any),
+    callback?: (error: Error | null, item?: ProfileInstance) => any
+  ): Promise<ProfileInstance> {
+    if (params instanceof Function) {
+      callback = params;
+      params = {} as any;
+    } else {
+      params = params || ({} as any);
+    }
+
+    let data: any = {};
+
+    if (params["traitGroups"] !== undefined)
+      data["traitGroups"] = params["traitGroups"];
+
+    const headers: any = {};
+    headers["Accept"] = "application/json";
+
+    const instance = this;
+    let operationVersion = instance._version,
+      operationPromise = operationVersion.fetch({
+        uri: instance._uri,
+        method: "get",
+        params: data,
+        headers,
+      });
+
+    operationPromise = operationPromise.then(
+      (payload) =>
+        new ProfileInstance(
+          operationVersion,
+          payload,
+          instance._solution.storeId,
+          instance._solution.profileId
+        )
+    );
+
+    operationPromise = instance._version.setPromiseCallback(
+      operationPromise,
+      callback
+    );
+    return operationPromise;
+  }
+
+  fetchWithHttpInfo(
+    params?:
+      | ProfileContextFetchOptions
+      | ((error: Error | null, item?: ApiResponse<ProfileInstance>) => any),
+    callback?: (error: Error | null, item?: ApiResponse<ProfileInstance>) => any
+  ): Promise<ApiResponse<ProfileInstance>> {
+    if (params instanceof Function) {
+      callback = params;
+      params = {} as any;
+    } else {
+      params = params || ({} as any);
+    }
+
+    let data: any = {};
+
+    if (params["traitGroups"] !== undefined)
+      data["traitGroups"] = params["traitGroups"];
+
+    const headers: any = {};
+    headers["Accept"] = "application/json";
+
+    const instance = this;
+    let operationVersion = instance._version;
+    // CREATE, FETCH, UPDATE operations
+    let operationPromise = operationVersion
+      .fetchWithResponseInfo<ProfileResource>({
+        uri: instance._uri,
+        method: "get",
+        params: data,
         headers,
       })
       .then(
@@ -437,13 +588,23 @@ interface ListProfiles200Response_ResponseResource {
 }
 
 /**
+ * Response model for Profile operations
+ */
+interface Profile_ResponseResource {
+  id?: string;
+  createdAt?: Date;
+  traits?: { [key: string]: { [key: string]: any } };
+}
+
+/**
  * Union type for all possible response models
  */
 type ProfileResource =
   | CreateProfile202Response_ResponseResource
   | DeleteProfile202Response_ResponseResource
   | PatchProfileTraits202Response_ResponseResource
-  | ListProfiles200Response_ResponseResource;
+  | ListProfiles200Response_ResponseResource
+  | Profile_ResponseResource;
 
 export class ProfileInstance {
   protected _solution: ProfileContextSolution;
@@ -463,6 +624,8 @@ export class ProfileInstance {
       payload.meta !== null && payload.meta !== undefined
         ? new ProfilesMeta(payload.meta)
         : null;
+    this.createdAt = deserialize.iso8601DateTime(payload.createdAt);
+    this.traits = payload.traits;
 
     this._solution = { storeId, profileId: profileId };
   }
@@ -474,6 +637,14 @@ export class ProfileInstance {
   message?: string;
   profiles?: Array<string>;
   meta?: ProfilesMeta;
+  /**
+   * The time the profile was created.
+   */
+  createdAt?: Date;
+  /**
+   * Multiple trait groups.
+   */
+  traits?: { [key: string]: { [key: string]: any } };
 
   private get _proxy(): ProfileContext {
     this._context =
@@ -510,6 +681,66 @@ export class ProfileInstance {
     callback?: (error: Error | null, item?: ApiResponse<ProfileInstance>) => any
   ): Promise<ApiResponse<ProfileInstance>> {
     return this._proxy.removeWithHttpInfo(callback);
+  }
+
+  /**
+   * Fetch a ProfileInstance
+   *
+   * @param callback - Callback to handle processed record
+   *
+   * @returns Resolves to processed ProfileInstance
+   */
+  fetch(
+    callback?: (error: Error | null, item?: ProfileInstance) => any
+  ): Promise<ProfileInstance>;
+  /**
+   * Fetch a ProfileInstance
+   *
+   * @param params - Parameter for request
+   * @param callback - Callback to handle processed record
+   *
+   * @returns Resolves to processed ProfileInstance
+   */
+  fetch(
+    params: ProfileContextFetchOptions,
+    callback?: (error: Error | null, item?: ProfileInstance) => any
+  ): Promise<ProfileInstance>;
+
+  fetch(
+    params?: any,
+    callback?: (error: Error | null, item?: ProfileInstance) => any
+  ): Promise<ProfileInstance> {
+    return this._proxy.fetch(params, callback);
+  }
+
+  /**
+   * Fetch a ProfileInstance and return HTTP info
+   *
+   * @param callback - Callback to handle processed record
+   *
+   * @returns Resolves to processed ProfileInstance with HTTP metadata
+   */
+  fetchWithHttpInfo(
+    callback?: (error: Error | null, item?: ApiResponse<ProfileInstance>) => any
+  ): Promise<ApiResponse<ProfileInstance>>;
+  /**
+   * Fetch a ProfileInstance and return HTTP info
+   *
+   * @param params - Parameter for request
+   * @param callback - Callback to handle processed record
+   *
+   * @returns Resolves to processed ProfileInstance with HTTP metadata
+   */
+  fetchWithHttpInfo(
+    params: ProfileContextFetchOptions,
+    callback?: (error: Error | null, item?: ApiResponse<ProfileInstance>) => any
+  ): Promise<ApiResponse<ProfileInstance>>;
+
+  fetchWithHttpInfo(
+    params?: any,
+    callback?: (error: Error | null, item?: ApiResponse<ProfileInstance>) => any
+  ): Promise<ApiResponse<ProfileInstance>> {
+    return this._proxy.fetchWithHttpInfo(params, callback);
   }
 
   /**
@@ -567,6 +798,8 @@ export class ProfileInstance {
       message: this.message,
       profiles: this.profiles,
       meta: this.meta,
+      createdAt: this.createdAt,
+      traits: this.traits,
     };
   }
 

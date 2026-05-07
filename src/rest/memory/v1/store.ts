@@ -134,6 +134,28 @@ export interface StoreListInstancePageOptions {
 
 export interface StoreContext {
   /**
+   * Remove a StoreInstance
+   *
+   * @param callback - Callback to handle processed record
+   *
+   * @returns Resolves to processed StoreInstance
+   */
+  remove(
+    callback?: (error: Error | null, item?: StoreInstance) => any
+  ): Promise<StoreInstance>;
+
+  /**
+   * Remove a StoreInstance and return HTTP info
+   *
+   * @param callback - Callback to handle processed record
+   *
+   * @returns Resolves to processed StoreInstance with HTTP metadata
+   */
+  removeWithHttpInfo(
+    callback?: (error: Error | null, item?: ApiResponse<StoreInstance>) => any
+  ): Promise<ApiResponse<StoreInstance>>;
+
+  /**
    * Fetch a StoreInstance
    *
    * @param callback - Callback to handle processed record
@@ -227,6 +249,65 @@ export class StoreContextImpl implements StoreContext {
 
     this._solution = { storeId };
     this._uri = `/ControlPlane/Stores/${storeId}`;
+  }
+
+  remove(
+    callback?: (error: Error | null, item?: StoreInstance) => any
+  ): Promise<StoreInstance> {
+    const headers: any = {};
+    headers["Accept"] = "application/json";
+
+    const instance = this;
+    let operationVersion = instance._version,
+      operationPromise = operationVersion.fetch({
+        uri: instance._uri,
+        method: "delete",
+        headers,
+      });
+
+    operationPromise = operationPromise.then(
+      (payload) =>
+        new StoreInstance(operationVersion, payload, instance._solution.storeId)
+    );
+
+    operationPromise = instance._version.setPromiseCallback(
+      operationPromise,
+      callback
+    );
+    return operationPromise;
+  }
+
+  removeWithHttpInfo(
+    callback?: (error: Error | null, item?: ApiResponse<StoreInstance>) => any
+  ): Promise<ApiResponse<StoreInstance>> {
+    const headers: any = {};
+    headers["Accept"] = "application/json";
+
+    const instance = this;
+    let operationVersion = instance._version;
+    // DELETE operation that returns a response model
+    let operationPromise = operationVersion
+      .fetchWithResponseInfo<StoreResource>({
+        uri: instance._uri,
+        method: "delete",
+        headers,
+      })
+      .then(
+        (response): ApiResponse<StoreInstance> => ({
+          ...response,
+          body: new StoreInstance(
+            operationVersion,
+            response.body,
+            instance._solution.storeId
+          ),
+        })
+      );
+
+    operationPromise = instance._version.setPromiseCallback(
+      operationPromise,
+      callback
+    );
+    return operationPromise;
   }
 
   fetch(
@@ -457,6 +538,14 @@ interface ServiceList_ResponseResource {
 }
 
 /**
+ * Response model for DeleteStore202Response operations
+ */
+interface DeleteStore202Response_ResponseResource {
+  message?: string;
+  statusUrl?: string;
+}
+
+/**
  * Response model for Store operations
  */
 interface Store_ResponseResource {
@@ -475,6 +564,7 @@ type StoreResource =
   | PatchStore202Response_ResponseResource
   | CreateStore202Response_ResponseResource
   | ServiceList_ResponseResource
+  | DeleteStore202Response_ResponseResource
   | Store_ResponseResource;
 
 export class StoreInstance {
@@ -544,6 +634,32 @@ export class StoreInstance {
       this._context ||
       new StoreContextImpl(this._version, this._solution.storeId);
     return this._context;
+  }
+
+  /**
+   * Remove a StoreInstance
+   *
+   * @param callback - Callback to handle processed record
+   *
+   * @returns Resolves to processed StoreInstance
+   */
+  remove(
+    callback?: (error: Error | null, item?: StoreInstance) => any
+  ): Promise<StoreInstance> {
+    return this._proxy.remove(callback);
+  }
+
+  /**
+   * Remove a StoreInstance and return HTTP info
+   *
+   * @param callback - Callback to handle processed record
+   *
+   * @returns Resolves to processed StoreInstance with HTTP metadata
+   */
+  removeWithHttpInfo(
+    callback?: (error: Error | null, item?: ApiResponse<StoreInstance>) => any
+  ): Promise<ApiResponse<StoreInstance>> {
+    return this._proxy.removeWithHttpInfo(callback);
   }
 
   /**

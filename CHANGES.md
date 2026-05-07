@@ -1,6 +1,17 @@
 twilio-node changelog
 =====================
 
+[2026-05-07] Version 6.0.2
+--------------------------
+**Conversations**
+- update actions api visibility
+
+**Memory**
+- ## 2026-05-07
+- **Content updates**:
+- include store api
+
+
 [2026-05-06] Version 6.0.1
 --------------------------
 **Twiml**

@@ -14,6 +14,7 @@
 
 import ConversationsBase from "../ConversationsBase";
 import Version from "../../base/Version";
+import { ActionListInstance } from "./v2/action";
 import {
   CommunicationListInstance,
   CommunicationContext,
@@ -39,6 +40,11 @@ export default class V2 extends Version {
   protected _conversations?: ConversationListInstance;
   /** operations - { Twilio.Conversations.V2.OperationListInstance } resource */
   protected _operations?: OperationListInstance;
+
+  /** Accessor for actions resource */
+  actions(ConversationId: string): ActionListInstance {
+    return ActionListInstance(this, ConversationId);
+  }
 
   /** Accessor for communications resource - list operations */
   communications(ConversationSid: string): CommunicationListInstance;
